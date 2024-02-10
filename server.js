@@ -33,11 +33,11 @@ db.connect((err) => {
     console.log("Connected to Database");
 })
 
-app.get("/",(req,res) => {{
+app.get("/",ifAuthenticate,(req,res) => {{
     res.render("index.ejs");
 }})
 
-app.get("/login",(req,res) =>{
+app.get("/login",NotAuthenticate,(req,res) =>{
     res.render("login.ejs");
 })
 
@@ -71,7 +71,7 @@ app.post("/login",passport.authenticate('local', {
 //     }
 // })
 
-app.get("/register", (req,res) => {
+app.get("/register", NotAuthenticate,(req,res) => {
     res.render("register.ejs");
 })
 
@@ -112,6 +112,20 @@ app.post("/register",async (req,res) =>{
     }
 })
 
+function ifAuthenticate(req,res,next) {
+    if(req.isAuthenticated){
+        return next();
+    }
+    res.redirect("/login");
+}
+
+function NotAuthenticate(req,res,next) {
+    if(req.isAuthenticated){
+        res.redirect("/");
+    }
+
+    next();
+}
 app.listen(3000 ,() => {
     console.log("Listerning on port 3000");
 })
