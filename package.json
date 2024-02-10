@@ -2,10 +2,7 @@
   "name": "nodejs_login",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
-  "engines": {
-    "node": "18.x"
-  },
+  
   "scripts": {
     "devStart": "nodemon server.js"
   },

@@ -1,7 +1,3 @@
-if(process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
-
 const path = require("path");
 const bcrypt = require("bcrypt");
 const express = require("express");
@@ -10,6 +6,9 @@ const passport = require("passport");
 const session = require("express-session");
 const flash = require("express-flash");
 const app = express();
+if(process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 
 const initializePassport = require("./passport_config");
 initializePassport(passport);
@@ -19,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(flash());
+
 app.use(session({
     secret:process.env.SECRET_KEY,
     resave:false,
@@ -42,7 +42,7 @@ app.get("/login",(req,res) =>{
 })
 
 app.post("/login",passport.authenticate('local', {
-    successRedirect: "/",
+    successRedirect: ("/"),
     failureRedirect: "/login",
     failureFlash: true
 }))
